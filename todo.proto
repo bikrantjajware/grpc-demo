@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+
+package todoPackage;
+
+//we can create multiple service just like this one here
+service Todo{
+
+    rpc createTodo(TodoInput) returns (TodoItem);
+    rpc readTodos(noparam) returns (TodoItems);
+    rpc readTodoStream(noparam) returns (stream TodoItem); // this will stream TodoItem one by one 
+
+}
+
+message noparam{
+}
+
+message TodoInput{
+    string text = 1;
+}
+
+message TodoItem{
+    int32 id = 1;
+    string text = 2;
+}
+
+message TodoItems{
+    repeated TodoItem items = 1;
+    //repeated because its an  array type
+    // however using repeated sends the complete array at a time which is not optimal, instead we can stream the data since its using HTTP 2
+
+}
